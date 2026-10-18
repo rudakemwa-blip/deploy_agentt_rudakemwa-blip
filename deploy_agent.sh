@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -u
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -50,20 +49,20 @@ archive_logs() {
 
     mkdir -p "$project/archives/attendance" "$project/archives/absent"
 
-    if [[ -f "$project/attendance.log" ]]; then
-        cp "$project/attendance.log" \
+    if [[ -f "$project/reports/attendance.log" ]]; then
+        cp "$project/reports/attendance.log" \
             "$project/archives/attendance/attendance_$timestamp.log"
         echo "Attendance log archived."
     else
-        echo "No attendance.log found."
+        echo "No attendance.log found at $project/reports/attendance.log"
     fi
 
-    if [[ -f "$project/absent.log" ]]; then
-        cp "$project/absent.log" \
+    if [[ -f "$project/reports/absent.log" ]]; then
+        cp "$project/reports/absent.log" \
             "$project/archives/absent/absent_$timestamp.log"
         echo "Absent log archived."
     else
-        echo "No absent.log found."
+        echo "No absent.log found at $project/reports/absent.log"
     fi
 }
 
@@ -123,11 +122,11 @@ deploy_app() {
     read -r -p "Choose 1 or 2: " choice
 
     if [[ "$choice" == "2" ]]; then
-        cat > "$target/Helpers/assets.csv" <<'CSV'
-student_id,name,sessions_attended,total_sessions
-1001,Alice,1,1
-1002,Brian,1,1
-1003,Chantal,0,1
+    cat > "$target/Helpers/assets.csv" <<'CSV'
+Names,Email,Attendance Count,Absence Count
+Alice Johnson,alice@example.com,8,2
+Brian Smith,brian@example.com,9,1
+Chantal Uwase,chantal@example.com,5,5
 CSV
         sed -i 's/"total_sessions"[[:space:]]*:[[:space:]]*[0-9]*/"total_sessions": 1/' \
             "$target/Helpers/config.json"

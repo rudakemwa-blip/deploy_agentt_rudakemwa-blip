@@ -1,7 +1,8 @@
-```json id="x2gjjr"
 {
-  "warning_threshold": 70,
-  "failure_threshold": 40
+    "thresholds": {
+        "warning": 75,
+        "failure": 50
+    },
+    "run_mode": "live",
+    "total_sessions": 5
 }
-```
-
